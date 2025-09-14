@@ -1,23 +1,62 @@
 import React from 'react';
 import { Card } from '../ui/Card';
 import { portfolioData } from '../../data/portfolio';
+import { motion } from 'framer-motion';
+
+// Animation Variants
+const fadeInFromLeft = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+};
+
+const fadeInFromRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
+const stagger = {
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
 
 export const About: React.FC = () => {
   return (
     <section id="about" className="py-20 bg-slate-50 dark:bg-slate-800/50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        {/* Section Title */}
+        <motion.div
+          className="text-center mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+        >
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
             About Me
           </h2>
           <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
             Learn more about my background, experience, and what drives me as a developer.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Bio */}
-          <div className="lg:col-span-2">
+        {/* Bio and Quick Info */}
+        <motion.div
+          className="grid lg:grid-cols-3 gap-8"
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {/* Bio - From Left */}
+          <motion.div className="lg:col-span-2" variants={fadeInFromLeft}>
             <Card className="p-8">
               <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6">
                 Background
@@ -31,10 +70,10 @@ export const About: React.FC = () => {
                 or mentoring aspiring developers in the community.
               </p>
             </Card>
-          </div>
+          </motion.div>
 
-          {/* Quick Info */}
-          <div className="space-y-8">
+          {/* Quick Info - From Right */}
+          <motion.div className="space-y-8" variants={fadeInFromRight}>
             <Card className="p-6">
               <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">
                 Quick Info
@@ -54,57 +93,67 @@ export const About: React.FC = () => {
                 </div>
               </div>
             </Card>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Experience & Education */}
-        <div className="grid md:grid-cols-2 gap-8 mt-12">
-          {/* Experience */}
-          <Card className="p-8">
-            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6">
-              Experience
-            </h3>
-            <div className="space-y-6">
-              {portfolioData.experience.map((exp, index) => (
-                <div key={index} className="border-l-2 border-slate-200 dark:border-slate-700 pl-4">
-                  <h4 className="font-semibold text-slate-900 dark:text-white">
-                    {exp.title}
-                  </h4>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm mb-2">
-                    {exp.company} • {exp.period}
-                  </p>
-                  <p className="text-slate-500 dark:text-slate-400 text-sm">
-                    {exp.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </Card>
-
-          {/* Education */}
-          <Card className="p-8">
-            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6">
-              Education
-            </h3>
-            <div className="space-y-6">
-              {portfolioData.education.map((edu, index) => (
-                <div key={index} className="border-l-2 border-slate-200 dark:border-slate-700 pl-4">
-                  <h4 className="font-semibold text-slate-900 dark:text-white">
-                    {edu.degree}
-                  </h4>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm mb-1">
-                    {edu.school} • {edu.period}
-                  </p>
-                  {edu.description && (
-                    <p className="text-slate-500 dark:text-slate-400 text-sm">
-                      {edu.description}
+        <motion.div
+          className="grid md:grid-cols-2 gap-8 mt-12"
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {/* Experience - From Left */}
+          <motion.div variants={fadeInFromLeft}>
+            <Card className="p-8">
+              <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6">
+                Experience
+              </h3>
+              <div className="space-y-6">
+                {portfolioData.experience.map((exp, index) => (
+                  <div key={index} className="border-l-2 border-slate-200 dark:border-slate-700 pl-4">
+                    <h4 className="font-semibold text-slate-900 dark:text-white">
+                      {exp.title}
+                    </h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm mb-2">
+                      {exp.company} • {exp.period}
                     </p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </Card>
-        </div>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm">
+                      {exp.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </motion.div>
+
+          {/* Education - From Right */}
+          <motion.div variants={fadeInFromRight}>
+            <Card className="p-8">
+              <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6">
+                Education
+              </h3>
+              <div className="space-y-6">
+                {portfolioData.education.map((edu, index) => (
+                  <div key={index} className="border-l-2 border-slate-200 dark:border-slate-700 pl-4">
+                    <h4 className="font-semibold text-slate-900 dark:text-white">
+                      {edu.degree}
+                    </h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm mb-1">
+                      {edu.school} • {edu.period}
+                    </p>
+                    {edu.description && (
+                      <p className="text-slate-500 dark:text-slate-400 text-sm">
+                        {edu.description}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
